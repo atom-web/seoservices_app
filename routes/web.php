@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // dd($_SERVER);
+    // $tables = DB::select('SHOW TABLES');
+    // foreach ($tables as $table) {
+    //     foreach ($table as $key => $value)
+    //         echo $value;
+    // }
     return view('welcome');
 });
