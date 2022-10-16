@@ -15,5 +15,5 @@ use App\Http\Controllers\SearchController;
 |
 */
 
-//Поиск совпадения в файлах 
+//Поиск совпадения в файлах /api/v1/search/
 Route::get('search', [SearchController::class, 'search']);

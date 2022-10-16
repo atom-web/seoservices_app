@@ -2,7 +2,7 @@
 /*
     ____Get_______________________
     search_string - (String) Строка поиска
-    domain_url - (String) Домен на которы отправить запрос
+    domain_url - (String) Домен на который отправить запрос
 */
 
 namespace App\Http\Controllers;
@@ -21,11 +21,12 @@ class SearchController extends Controller{
             $searchFileName = 'searchcode.php'; //Название файла для поиска
             if (@get_headers($httpUrl)) { //Проверяем доступен ли домен
                 $post = Http::get($httpUrl.$searchFileName, [ //Получаем данные от сервена
+                    'action' => 'search',
                     'search_string' => $serchString,
                 ]);
                 if($post->status() === 200){ //Если сервер отдал ответ 200
 
-                    $result['body'] =  json_decode($post->body());
+                    $result['response_searchcode'] =  json_decode($post->body());
                     $result['info']['error'] = false;
                 } else {
                     $result['info']['error'] = true;
