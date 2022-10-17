@@ -19,28 +19,30 @@ class SearchController extends Controller{
         if($serchString && $urlDomain){
             $httpUrl = 'https://'.$urlDomain.'/'; //Формируем https url
             $searchFileName = 'searchcode.php'; //Название файла для поиска
+            $result['info_servers']['status'] = 'success';
             if (@get_headers($httpUrl)) { //Проверяем доступен ли домен
                 $post = Http::get($httpUrl.$searchFileName, [ //Получаем данные от сервена
                     'action' => 'search',
                     'search_string' => $serchString,
                 ]);
+                $result['info_servers']['domain'] = $urlDomain;
+                $result['info_servers']['code'] = $post->status();
                 if($post->status() === 200){ //Если сервер отдал ответ 200
-
-                    $result['response_searchcode'] =  json_decode($post->body());
-                    $result['info']['error'] = false;
+                    $result['response'] =  json_decode($post->body());
                 } else {
-                    $result['info']['error'] = true;
-                    $result['info']['message'] = "Сервер отдает статус ".$post->status();
+                    $result['info_servers']['status'] = 'error';
+                    $result['info_servers']['message'] = 'Server returns '.$post->status().' response code';
                 }
-                $result['info']['code_response'] = $post->status();
             } else {
-                $result['info']['error'] = true;
-                $result['info']['message'] = "Домен введен не верно, либо не существует";
+                $result['info_servers']['status'] = 'error';
+                $result['info_servers']['message'] = 'Domain not found';
+                $result['response'] = [];
             }
             
         } else {
-            $result['info']['error'] = true;
-            $result['info']['message'] = "Не переданы нужные поля";
+            $result['info_servers']['status'] = 'error';
+            $result['info_servers']['message'] = "Required parameters not passed. Pass two get parameters: search_string, domain_url";
+            $result['response'] = [];
         }
         
 

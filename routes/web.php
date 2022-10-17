@@ -14,10 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // $tables = DB::select('SHOW TABLES');
-    // foreach ($tables as $table) {
-    //     foreach ($table as $key => $value)
-    //         echo $value;
-    // }
-    return view('welcome');
+    return 'API';
 });
